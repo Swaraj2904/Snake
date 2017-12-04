@@ -15,7 +15,7 @@ public class Snake : MonoBehaviour {
 	}
 
 	void OnTriggerEnter (Collider other) {
-		Debug.Log (other.tag);
+		//Debug.Log (other.tag);
 		if (other.CompareTag ("Body") == true) {
 			SnakeController snakeController = gameObject.GetComponentInParent<SnakeController> ();
 			snakeController.OnSnakeCollision ();
