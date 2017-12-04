@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SnakeController : MonoBehaviour {
 	public Snake snakeBody;
 	public float speedMax;
 	public GameController gameController;
+	public Slider vitality;
 
 	private List<Snake> snake = new List<Snake> ();
 	private int counter;
@@ -17,6 +19,7 @@ public class SnakeController : MonoBehaviour {
 
 	void Start () {
 		counter = 0;
+		vitality.value = 0;
 		prevKey = 'W';
 		speed = new Vector3 (0, 0, speedMax);
 		snakeHeadPosition = new Vector3 (0, 0.5F, 0);
@@ -26,6 +29,8 @@ public class SnakeController : MonoBehaviour {
 		AddSnakeBody (snakeHeadPosition);
 		AddSnakeBody (snakeHeadPosition - speed);
 		AddSnakeBody (snakeHeadPosition - speed - speed);
+
+		vitality.value = 6;
 
 		return snakeHeadPosition;
 	}
@@ -81,7 +86,6 @@ public class SnakeController : MonoBehaviour {
 			 * Movements in quantums
 			*/
 			if (counter % 10 == 0) {
-				//Debug.Log (counter);
 				/*
 				 * Removing the snake body part from queue to be added to the snake.
 				 * Also enabling its Rigidbody and Collider.
@@ -101,7 +105,6 @@ public class SnakeController : MonoBehaviour {
 			/*
 			 * Emptying the current snake
 			*/
-			//Debug.Log (snake.Count);
 			for (int i = 0; i < snake.Count; i++) {
 				Debug.Log (i);
 				Destroy (snake [i].gameObject);
@@ -118,7 +121,6 @@ public class SnakeController : MonoBehaviour {
 			 * Setting the flag to false so as to display the main menu
 			*/
 			gameController.end = false;
-
 		}
 	}
 
@@ -152,6 +154,11 @@ public class SnakeController : MonoBehaviour {
 		 * Adding the body part to the List of snake body parts
 		*/
 		snake.Add (bodypartInstance);
+
+		/*
+		 * Upon addition of snake body increase the vitality of snake
+		*/
+		vitality.value += 2;
 	}
 
 	public void OnSnakeCollision(){
